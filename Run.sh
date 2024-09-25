@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Displaying ASCII Art
+echo "   _____ _    _ ____ _______       _  ________ _____  "
+echo "  / ____| |  | |  _ \__   __|/\   | |/ /  ____|  __ \ "
+echo " | (___ | |  | | |_) | | |  /  \  | ' /| |__  | |__) |"
+echo "  \___ \| |  | |  _ <  | | / /\ \ |  < |  __| |  _  / "
+echo "  ____) | |__| | |_) | | |/ ____ \| . \| |____| | \ \ "
+echo " |_____/ \____/|____/  |_/_/    \_\_|\_\______|_|  \_\ "
+echo "                                                       "
+echo "                                                       "
+
 # Function to create directories if they do not exist
 create_directory() {
     [ ! -d "$1" ] && mkdir -p "$1"

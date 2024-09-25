@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Displaying ASCII Art
-echo "   _____ _    _ ____ _______       _  ________ _____  
-echo "  / ____| |  | |  _ \__   __|/\   | |/ /  ____|  __ \ 
-echo " | (___ | |  | | |_) | | |  /  \  | ' /| |__  | |__) |
-echo "  \___ \| |  | |  _ <  | | / /\ \ |  < |  __| |  _  / 
-echo "  ____) | |__| | |_) | | |/ ____ \| . \| |____| | \ \ 
-echo " |_____/ \____/|____/  |_/_/    \_\_|\_\______|_|  \_\ 
-echo "                                                       
-echo "                                                       
+echo " ███████╗██╗   ██╗██████╗ ████████╗ █████╗ ██╗  ██╗███████╗██████╗ 
+echo " ██╔════╝██║   ██║██╔══██╗╚══██╔══╝██╔══██╗██║ ██╔╝██╔════╝██╔══██╗
+echo " ███████╗██║   ██║██████╔╝   ██║   ███████║█████╔╝ █████╗  ██████╔╝
+echo " ╚════██║██║   ██║██╔══██╗   ██║   ██╔══██║██╔═██╗ ██╔══╝  ██╔══██╗
+echo " ███████║╚██████╔╝██████╔╝   ██║   ██║  ██║██║  ██╗███████╗██║  ██║
+echo "  ╚══════╝ ╚═════╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
+echo "                                                                    
+echo "                                                                    
 
 # Function to create directories if they do not exist
 create_directory() {
@@ -42,12 +42,15 @@ create_file "$url/recon/httprobe/alive.txt"
 create_file "$url/recon/final.txt"
 create_file "$url/recon/potential_takeovers/potential_takeovers.txt"
 
-echo "[+] Finding subdomains with assetfinder..."
+echo "[+] Finding subdomains with assetfinder and crt.sh API..."
 assetfinder "$url" | grep "$url" > "$url/recon/final.txt"
+
+# Adding crt.sh API for more subdomains
+curl -s "https://crt.sh/?q=%25.$url&output=json" | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u >> "$url/recon/final.txt"
 
 # Checking if assetfinder command was successful
 if [ $? -ne 0 ]; then
-    echo "[-] Failed to find subdomains with assetfinder."
+    echo "[-] Failed to find subdomains."
     exit 1
 fi
 
